@@ -2,41 +2,51 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Truy xuất nguồn gốc cà phê</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Thông tin truy xuất lô cà phê</h1>
-  <div class="timeline" id="timeline"></div>
+  <div class="container">
+    <header>
+      <img src="logo.png" alt="Logo" class="logo" />
+      <h1>Truy xuất nguồn gốc cà phê</h1>
+    </header>
+
+    <section id="timeline">
+      <!-- Nội dung sẽ được chèn bằng JavaScript -->
+    </section>
+
+    <footer>
+      © 2025 Taikon | Powered by Blockchain & IoT
+    </footer>
+  </div>
 
   <script>
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const batchId = urlParams.get('batchId');
+    const params = new URLSearchParams(window.location.search);
+    const batchId = params.get("batchId");
 
-    const data = {
-      "CF20250709": [
-        { time: "2025-07-05", location: "Lâm Đồng", note: "Thu hoạch tại trang trại" },
-        { time: "2025-07-06", location: "Lâm Đồng", note: "Phơi trong 3 ngày nắng" },
-        { time: "2025-07-10", location: "Từ Sơn", note: "Đến trung tâm phân loại BN HUB" },
-        { time: "2025-07-11", location: "Củ Chi", note: "Đến trung tâm phân loại HCM HUB" },
-        { time: "2025-07-12", location: "Thủ Đức", note: "Đến bưu cục phát" },
-        { time: "2025-07-13", location: "Khách hàng", note: "Đã giao hàng thành công" }
-      ]
-    };
-
-    const container = document.getElementById("timeline");
-    const entries = data[batchId] || [];
-
-    if (entries.length === 0) {
-      container.innerHTML = "<p>Không tìm thấy dữ liệu cho lô: " + batchId + "</p>";
+    if (batchId) {
+      fetch(`data${batchId}.json`)
+        .then(res => res.json())
+        .then(data => {
+          const timeline = document.getElementById('timeline');
+          timeline.innerHTML = `
+            <div class="card">
+              <h2>Lô hàng: ${data.batchId}</h2>
+              <p><strong>Vùng trồng:</strong> ${data.farmLocation}</p>
+              <p><strong>Ngày thu hoạch:</strong> ${data.harvestDate}</p>
+              <p><strong>Độ ẩm:</strong> ${data.moisture}%</p>
+              <p><strong>Nhiệt độ:</strong> ${data.temperature}°C</p>
+              <p><strong>Ghi chú:</strong> ${data.note}</p>
+            </div>`;
+        })
+        .catch(err => {
+          document.getElementById('timeline').innerHTML = "<p>❌ Không tìm thấy dữ liệu cho lô hàng này.</p>";
+        });
     } else {
-      entries.forEach(entry => {
-        const div = document.createElement("div");
-        div.className = "timeline-entry";
-        div.innerHTML = `<h3>${entry.time} - ${entry.location}</h3><p>${entry.note}</p>`;
-        container.appendChild(div);
-      });
+      document.getElementById('timeline').innerHTML = "<p>🔍 Không có mã lô hàng.</p>";
     }
   </script>
 </body>
