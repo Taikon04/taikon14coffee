@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Truy xuất nguồn gốc cà phê</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Thông tin truy xuất lô cà phê</h1>
+  <div class="timeline" id="timeline"></div>
+
+  <script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const batchId = urlParams.get('batchId');
+
+    const data = {
+      "CF20250709": [
+        { time: "2025-07-05", location: "Lâm Đồng", note: "Thu hoạch tại trang trại" },
+        { time: "2025-07-06", location: "Lâm Đồng", note: "Phơi trong 3 ngày nắng" },
+        { time: "2025-07-10", location: "Từ Sơn", note: "Đến trung tâm phân loại BN HUB" },
+        { time: "2025-07-11", location: "Củ Chi", note: "Đến trung tâm phân loại HCM HUB" },
+        { time: "2025-07-12", location: "Thủ Đức", note: "Đến bưu cục phát" },
+        { time: "2025-07-13", location: "Khách hàng", note: "Đã giao hàng thành công" }
+      ]
+    };
+
+    const container = document.getElementById("timeline");
+    const entries = data[batchId] || [];
+
+    if (entries.length === 0) {
+      container.innerHTML = "<p>Không tìm thấy dữ liệu cho lô: " + batchId + "</p>";
+    } else {
+      entries.forEach(entry => {
+        const div = document.createElement("div");
+        div.className = "timeline-entry";
+        div.innerHTML = `<h3>${entry.time} - ${entry.location}</h3><p>${entry.note}</p>`;
+        container.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>

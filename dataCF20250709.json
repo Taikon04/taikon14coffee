@@ -1,0 +1,14 @@
+{
+  "batchId": "CF20250709",
+  "farmLocation": "Lâm Đồng",
+  "harvestDate": "2025-07-05",
+  "moisture": 12.8,
+  "temperature": 24.3,
+  "note": "Cà phê được phơi trong 3 ngày nắng",
+  "timeline": [
+    { "time": "2025-07-05", "status": "Thu hoạch tại nông trại Lâm Đồng" },
+    { "time": "2025-07-06", "status": "Phơi dưới nắng tự nhiên" },
+    { "time": "2025-07-09", "status": "Đóng gói và vận chuyển đến kho" },
+    { "time": "2025-07-10", "status": "Lưu trữ và chờ vận chuyển" }
+  ]
+}
